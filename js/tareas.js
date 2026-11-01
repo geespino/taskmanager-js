@@ -58,3 +58,16 @@ export function crearTarea(titulo, prioridad) {
         fechaCreacion: new Date().toISOString(),
     };
 }
+
+/**
+ * Calcula las métricas del dashboard.
+ * @param {Array<object>} tareas
+ * @returns {{total: number, pendientes: number, completadas: number, porcentaje: number}}
+ */
+export function calcularMetricas(tareas) {
+    const total = tareas.length;
+    const completadas = tareas.filter((tarea) => tarea.completada).length;
+    const pendientes = total - completadas;
+    const porcentaje = total === 0 ? 0 : Math.round((completadas / total) * 100);
+    return { total, pendientes, completadas, porcentaje };
+}

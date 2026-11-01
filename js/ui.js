@@ -11,6 +11,13 @@ export const elementos = {
     errorFormulario: document.querySelector('#error-formulario'),
     lista: document.querySelector('#lista-tareas'),
     mensajeVacio: document.querySelector('#mensaje-vacio'),
+    tituloFormulario: document.querySelector('#titulo-formulario'),
+    botonCancelar: document.querySelector('#btn-cancelar'),
+    metricaTotal: document.querySelector('#metrica-total'),
+    metricaPendientes: document.querySelector('#metrica-pendientes'),
+    metricaCompletadas: document.querySelector('#metrica-completadas'),
+    metricaPorcentaje: document.querySelector('#metrica-porcentaje'),
+    barraProgreso: document.querySelector('#barra-progreso'),
 };
 
 const ETIQUETAS_PRIORIDAD = { alta: 'Alta', media: 'Media', baja: 'Baja' };
@@ -43,6 +50,18 @@ function crearElementoTarea(tarea) {
     const item = crearElemento('li', `tarea tarea--${tarea.prioridad}`);
     item.dataset.id = tarea.id;
 
+    if (tarea.completada) {
+        item.classList.add('tarea--completada');
+    }
+
+    const casilla = document.createElement('input');
+    casilla.type = 'checkbox';
+    casilla.className = 'tarea__casilla';
+    casilla.checked = tarea.completada;
+    casilla.dataset.accion = 'completar';
+    casilla.setAttribute('aria-label', `Marcar "${tarea.titulo}" como completada`);
+    item.append(casilla);
+
     const contenido = crearElemento('div', 'tarea__contenido');
     const titulo = crearElemento('p', 'tarea__titulo', tarea.titulo);
     const meta = crearElemento('div', 'tarea__meta');
@@ -53,6 +72,7 @@ function crearElementoTarea(tarea) {
     contenido.append(titulo, meta);
 
     const acciones = crearElemento('div', 'tarea__acciones');
+    acciones.append(crearBoton('Editar', 'editar'));
     acciones.append(crearBoton('Eliminar', 'eliminar', 'boton-accion--peligro'));
 
     item.append(contenido, acciones);
@@ -99,4 +119,36 @@ export function mostrarErrorFormulario(mensaje) {
 export function limpiarErrorFormulario() {
     elementos.errorFormulario.textContent = '';
     elementos.inputTitulo.classList.remove('campo--error');
+}
+
+/**
+ * Actualiza las tarjetas del dashboard.
+ * @param {{total: number, pendientes: number, completadas: number, porcentaje: number}} metricas
+ */
+export function actualizarDashboard({ total, pendientes, completadas, porcentaje }) {
+    elementos.metricaTotal.textContent = total;
+    elementos.metricaPendientes.textContent = pendientes;
+    elementos.metricaCompletadas.textContent = completadas;
+    elementos.metricaPorcentaje.textContent = `${porcentaje}%`;
+    elementos.barraProgreso.style.width = `${porcentaje}%`;
+}
+
+/** Carga una tarea en el formulario para editarla. */
+export function activarModoEdicion(tarea) {
+    elementos.inputTitulo.value = tarea.titulo;
+    elementos.selectPrioridad.value = tarea.prioridad;
+    elementos.tituloFormulario.textContent = 'Editar tarea';
+    elementos.botonGuardar.textContent = 'Guardar cambios';
+    elementos.botonCancelar.hidden = false;
+    elementos.formulario.classList.add('formulario--edicion');
+    elementos.inputTitulo.focus();
+}
+
+/** Devuelve el formulario a su estado de "Nueva tarea". */
+export function desactivarModoEdicion() {
+    elementos.formulario.reset();
+    elementos.tituloFormulario.textContent = 'Nueva tarea';
+    elementos.botonGuardar.textContent = 'Agregar tarea';
+    elementos.botonCancelar.hidden = true;
+    elementos.formulario.classList.remove('formulario--edicion');
 }
