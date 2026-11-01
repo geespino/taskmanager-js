@@ -110,3 +110,19 @@ export function ordenarTareas(tareas, criterio) {
     const comparador = COMPARADORES[criterio] ?? COMPARADORES.recientes;
     return [...tareas].sort(comparador);
 }
+
+/**
+ * Elimina registros repetidos según su id.
+ * @param {Array<object>} tareas
+ * @returns {Array<object>}
+ */
+export function eliminarDuplicados(tareas) {
+    const idsVistos = new Set();
+    return tareas.filter((tarea) => {
+        if (idsVistos.has(tarea.id)) {
+            return false;
+        }
+        idsVistos.add(tarea.id);
+        return true;
+    });
+}

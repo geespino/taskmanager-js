@@ -22,6 +22,9 @@ export const elementos = {
     inputBusqueda: document.querySelector('#busqueda'),
     selectOrden: document.querySelector('#orden'),
     contadorVisible: document.querySelector('#contador-visible'),
+    estadoCarga: document.querySelector('#estado-carga'),
+    estadoConexion: document.querySelector('#estado-conexion'),
+    notificaciones: document.querySelector('#notificaciones'),
 };
 
 const ETIQUETAS_PRIORIDAD = { alta: 'Alta', media: 'Media', baja: 'Baja' };
@@ -164,4 +167,38 @@ export function marcarFiltroActivo(estado) {
     elementos.filtros.querySelectorAll('[data-filtro]').forEach((boton) => {
         boton.setAttribute('aria-pressed', String(boton.dataset.filtro === estado));
     });
+}
+
+/**
+ * Muestra una notificación visual temporal.
+ * @param {string} mensaje
+ * @param {'exito'|'error'|'info'} tipo
+ * @param {number} duracion Milisegundos antes de ocultarse.
+ */
+export function mostrarNotificacion(mensaje, tipo = 'info', duracion = 4000) {
+    const notificacion = crearElemento('div', `notificacion notificacion--${tipo}`);
+    notificacion.setAttribute('role', tipo === 'error' ? 'alert' : 'status');
+
+    const texto = crearElemento('p', 'notificacion__texto', mensaje);
+    const cerrar = crearElemento('button', 'notificacion__cerrar', '×');
+    cerrar.type = 'button';
+    cerrar.setAttribute('aria-label', 'Cerrar notificación');
+
+    const quitar = () => notificacion.remove();
+    cerrar.addEventListener('click', quitar);
+    setTimeout(quitar, duracion);
+
+    notificacion.append(texto, cerrar);
+    elementos.notificaciones.append(notificacion);
+}
+
+/** Muestra u oculta el aviso de carga. */
+export function mostrarCargando(activo) {
+    elementos.estadoCarga.hidden = !activo;
+}
+
+/** Actualiza la etiqueta de conexión del encabezado. */
+export function actualizarEstadoConexion(enLinea) {
+    elementos.estadoConexion.textContent = enLinea ? 'En línea' : 'Sin conexión';
+    elementos.estadoConexion.classList.toggle('estado-conexion--offline', !enLinea);
 }

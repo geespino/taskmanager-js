@@ -3,6 +3,7 @@
  * Punto de entrada de TaskManager. Coordina los módulos:
  *  - tareas.js  → lógica de las tareas
  *  - storage.js → persistencia en localStorage
+ *  - api.js     → consumo de la API REST
  *  - ui.js      → interfaz visual (DOM)
  */
 
@@ -13,7 +14,9 @@ import {
     calcularMetricas,
     filtrarTareas,
     ordenarTareas,
+    eliminarDuplicados,
 } from './tareas.js';
+import { obtenerTareasAPI } from './api.js';
 import * as ui from './ui.js';
 
 // ---------- Estado de la aplicación ----------
@@ -55,6 +58,7 @@ function manejarEnvio(evento) {
     tareas.unshift(crearTarea(titulo, prioridad));
     ui.limpiarFormulario();
     guardarYRenderizar();
+    ui.mostrarNotificacion('Tarea agregada correctamente.', 'exito');
 }
 
 function eliminarTarea(id) {
@@ -63,6 +67,7 @@ function eliminarTarea(id) {
         salirDeEdicion();
     }
     guardarYRenderizar();
+    ui.mostrarNotificacion('Tarea eliminada.', 'info');
 }
 
 function alternarCompletada(id) {
@@ -86,6 +91,7 @@ function guardarEdicion(titulo, prioridad) {
     );
     salirDeEdicion();
     guardarYRenderizar();
+    ui.mostrarNotificacion('Cambios guardados.', 'exito');
 }
 
 function salirDeEdicion() {
@@ -131,12 +137,49 @@ function registrarEventos() {
         vista.orden = evento.target.value;
         renderizar();
     });
+    window.addEventListener('offline', () => {
+        ui.actualizarEstadoConexion(false);
+        ui.mostrarNotificacion('Sin conexión a internet. Tus cambios se siguen guardando en este navegador.', 'info');
+    });
+    window.addEventListener('online', () => {
+        ui.actualizarEstadoConexion(true);
+        ui.mostrarNotificacion('Conexión restablecida.', 'exito');
+    });
+}
+
+// ---------- Carga inicial desde la API ----------
+async function importarDesdeAPI() {
+    ui.mostrarCargando(true);
+    try {
+        const tareasAPI = await obtenerTareasAPI();
+        tareas = eliminarDuplicados(tareasAPI);
+        guardarTareas(tareas);
+        ui.mostrarNotificacion(`Se importaron ${tareas.length} tareas desde la API.`, 'exito');
+    } catch (error) {
+        console.error('Error al consultar la API:', error);
+        tareas = [];
+        ui.mostrarNotificacion(
+            'No se pudieron cargar las tareas del servidor. Revisa tu conexión; puedes seguir creando tareas y se guardarán en este navegador.',
+            'error',
+            7000
+        );
+    } finally {
+        ui.mostrarCargando(false);
+    }
 }
 
 // ---------- Inicio ----------
-function inicializar() {
+async function inicializar() {
     registrarEventos();
-    tareas = hayTareasGuardadas() ? cargarTareas() : [];
+    ui.actualizarEstadoConexion(navigator.onLine);
+
+    if (hayTareasGuardadas()) {
+        // Ya hay datos: se usan los del navegador (funciona sin internet).
+        tareas = cargarTareas();
+    } else {
+        // localStorage vacío: se importan las tareas de la API una sola vez.
+        await importarDesdeAPI();
+    }
     renderizar();
 }
 
