@@ -1,3 +1,8 @@
+/* =========================================================
+   TaskManager - Hoja de estilos
+   Autora: Genesis Espinoza
+   ========================================================= */
+
 /* ---------- Variables globales ---------- */
 :root {
     --color-primario: #4f46e5;
@@ -185,4 +190,82 @@ body {
     font-size: 0.85rem;
     padding: 1rem 0;
     text-align: center;
+}
+
+/* ---------- Tarjeta de tarea ---------- */
+.tarea {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    padding: 0.8rem 1rem;
+    border: 1px solid var(--color-borde);
+    border-left: 5px solid var(--color-media);
+    border-radius: 10px;
+    background-color: var(--color-blanco);
+}
+
+.tarea--alta {
+    border-left-color: var(--color-alta);
+}
+
+.tarea--baja {
+    border-left-color: var(--color-baja);
+}
+
+.tarea__contenido {
+    flex: 1;
+    min-width: 0;
+}
+
+.tarea__titulo {
+    font-weight: 500;
+    color: var(--color-oscuro);
+    overflow-wrap: anywhere;
+}
+
+.tarea__meta {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-top: 0.2rem;
+    font-size: 0.8rem;
+    color: var(--color-suave);
+}
+
+.etiqueta {
+    font-size: 0.72rem;
+    font-weight: 600;
+    padding: 0.1rem 0.55rem;
+    border-radius: 999px;
+    color: var(--color-blanco);
+    background-color: var(--color-media);
+}
+
+.etiqueta--alta {
+    background-color: var(--color-alta);
+}
+
+.etiqueta--baja {
+    background-color: var(--color-baja);
+}
+
+.tarea__acciones {
+    display: flex;
+    gap: 0.4rem;
+}
+
+.boton-accion {
+    font-family: var(--fuente);
+    font-size: 0.8rem;
+    font-weight: 500;
+    padding: 0.35rem 0.75rem;
+    border: 1px solid var(--color-borde);
+    border-radius: 6px;
+    background-color: var(--color-blanco);
+    color: var(--color-texto);
+    cursor: pointer;
+}
+
+.boton-accion--peligro {
+    color: var(--color-alta);
 }
