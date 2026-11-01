@@ -11,16 +11,21 @@ import {
     validarTarea,
     crearTarea,
     calcularMetricas,
+    filtrarTareas,
+    ordenarTareas,
 } from './tareas.js';
 import * as ui from './ui.js';
 
 // ---------- Estado de la aplicación ----------
 let tareas = [];
 let idEnEdicion = null;
+const vista = { estado: 'todas', busqueda: '', orden: 'recientes' };
 
 // ---------- Renderizado ----------
 function renderizar() {
-    ui.renderizarTareas(tareas);
+    const filtradas = filtrarTareas(tareas, vista.estado, vista.busqueda);
+    const visibles = ordenarTareas(filtradas, vista.orden);
+    ui.renderizarTareas(visibles, tareas.length);
     ui.actualizarDashboard(calcularMetricas(tareas));
 }
 
@@ -103,11 +108,29 @@ function manejarAccionLista(evento) {
     acciones[control.dataset.accion]?.(id);
 }
 
+// ---------- Filtros, búsqueda y ordenamiento ----------
+function manejarFiltro(evento) {
+    const boton = evento.target.closest('[data-filtro]');
+    if (!boton) return;
+    vista.estado = boton.dataset.filtro;
+    ui.marcarFiltroActivo(vista.estado);
+    renderizar();
+}
+
 // ---------- Eventos ----------
 function registrarEventos() {
     ui.elementos.formulario.addEventListener('submit', manejarEnvio);
     ui.elementos.lista.addEventListener('click', manejarAccionLista);
     ui.elementos.botonCancelar.addEventListener('click', salirDeEdicion);
+    ui.elementos.filtros.addEventListener('click', manejarFiltro);
+    ui.elementos.inputBusqueda.addEventListener('input', (evento) => {
+        vista.busqueda = evento.target.value;
+        renderizar();
+    });
+    ui.elementos.selectOrden.addEventListener('change', (evento) => {
+        vista.orden = evento.target.value;
+        renderizar();
+    });
 }
 
 // ---------- Inicio ----------

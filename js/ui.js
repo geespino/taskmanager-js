@@ -18,6 +18,10 @@ export const elementos = {
     metricaCompletadas: document.querySelector('#metrica-completadas'),
     metricaPorcentaje: document.querySelector('#metrica-porcentaje'),
     barraProgreso: document.querySelector('#barra-progreso'),
+    filtros: document.querySelector('#filtros'),
+    inputBusqueda: document.querySelector('#busqueda'),
+    selectOrden: document.querySelector('#orden'),
+    contadorVisible: document.querySelector('#contador-visible'),
 };
 
 const ETIQUETAS_PRIORIDAD = { alta: 'Alta', media: 'Media', baja: 'Baja' };
@@ -92,6 +96,8 @@ export function renderizarTareas(tareas, total = tareas.length) {
         total === 0
             ? 'Aún no tienes tareas. ¡Agrega la primera!'
             : 'Ninguna tarea coincide con el filtro o la búsqueda.';
+
+    elementos.contadorVisible.textContent = `Mostrando ${tareas.length} de ${total}`;
 }
 
 /** Devuelve los valores escritos en el formulario. */
@@ -151,4 +157,11 @@ export function desactivarModoEdicion() {
     elementos.botonGuardar.textContent = 'Agregar tarea';
     elementos.botonCancelar.hidden = true;
     elementos.formulario.classList.remove('formulario--edicion');
+}
+
+/** Resalta el botón del filtro seleccionado. */
+export function marcarFiltroActivo(estado) {
+    elementos.filtros.querySelectorAll('[data-filtro]').forEach((boton) => {
+        boton.setAttribute('aria-pressed', String(boton.dataset.filtro === estado));
+    });
 }

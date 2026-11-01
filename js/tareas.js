@@ -71,3 +71,42 @@ export function calcularMetricas(tareas) {
     const porcentaje = total === 0 ? 0 : Math.round((completadas / total) * 100);
     return { total, pendientes, completadas, porcentaje };
 }
+
+/**
+ * Filtra por estado y por texto de búsqueda en el título.
+ * @param {Array<object>} tareas
+ * @param {'todas'|'pendientes'|'completadas'} estado
+ * @param {string} texto
+ * @returns {Array<object>}
+ */
+export function filtrarTareas(tareas, estado, texto) {
+    const busqueda = texto.trim().toLowerCase();
+
+    return tareas.filter((tarea) => {
+        const cumpleEstado =
+            estado === 'todas' ||
+            (estado === 'completadas' && tarea.completada) ||
+            (estado === 'pendientes' && !tarea.completada);
+        const cumpleBusqueda = tarea.titulo.toLowerCase().includes(busqueda);
+        return cumpleEstado && cumpleBusqueda;
+    });
+}
+
+// Funciones comparadoras para el método sort().
+const COMPARADORES = {
+    recientes: (a, b) => new Date(b.fechaCreacion) - new Date(a.fechaCreacion),
+    antiguas: (a, b) => new Date(a.fechaCreacion) - new Date(b.fechaCreacion),
+    'prioridad-alta': (a, b) => PRIORIDADES[b.prioridad] - PRIORIDADES[a.prioridad],
+    'prioridad-baja': (a, b) => PRIORIDADES[a.prioridad] - PRIORIDADES[b.prioridad],
+};
+
+/**
+ * Devuelve una copia ordenada de la lista (no modifica el original).
+ * @param {Array<object>} tareas
+ * @param {string} criterio
+ * @returns {Array<object>}
+ */
+export function ordenarTareas(tareas, criterio) {
+    const comparador = COMPARADORES[criterio] ?? COMPARADORES.recientes;
+    return [...tareas].sort(comparador);
+}
