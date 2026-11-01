@@ -24,6 +24,29 @@
 
     <main class="contenedor principal">
 
+        <!-- ========== DASHBOARD DE MÉTRICAS ========== -->
+        <section class="dashboard" aria-label="Métricas de tareas">
+            <article class="metrica">
+                <p class="metrica__etiqueta">Total de tareas</p>
+                <p class="metrica__valor" id="metrica-total">0</p>
+            </article>
+            <article class="metrica metrica--pendiente">
+                <p class="metrica__etiqueta">Pendientes</p>
+                <p class="metrica__valor" id="metrica-pendientes">0</p>
+            </article>
+            <article class="metrica metrica--completada">
+                <p class="metrica__etiqueta">Completadas</p>
+                <p class="metrica__valor" id="metrica-completadas">0</p>
+            </article>
+            <article class="metrica metrica--progreso">
+                <p class="metrica__etiqueta">Avance</p>
+                <p class="metrica__valor" id="metrica-porcentaje">0%</p>
+                <div class="barra" aria-hidden="true">
+                    <div class="barra__relleno" id="barra-progreso"></div>
+                </div>
+            </article>
+        </section>
+
         <!-- ========== FORMULARIO ========== -->
         <section class="panel">
             <h2 class="panel__titulo" id="titulo-formulario">Nueva tarea</h2>
@@ -42,6 +65,7 @@
                 </div>
                 <div class="formulario__acciones">
                     <button type="submit" class="boton" id="btn-guardar">Agregar tarea</button>
+                    <button type="button" class="boton boton--secundario" id="btn-cancelar" hidden>Cancelar</button>
                 </div>
                 <p class="formulario__error" id="error-formulario" role="alert"></p>
             </form>
