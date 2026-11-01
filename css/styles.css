@@ -470,3 +470,92 @@ body {
         transform: translateY(0);
     }
 }
+
+/* =========================================================
+   Estilos finales: interacción y diseño adaptable
+   ========================================================= */
+.boton,
+.boton-accion,
+.filtro,
+.campo,
+.tarea {
+    transition: all var(--transicion);
+}
+
+.boton:hover {
+    background-color: var(--color-primario-oscuro);
+    transform: translateY(-1px);
+}
+
+.boton--secundario:hover {
+    background-color: #cbd5e1;
+    color: var(--color-oscuro);
+}
+
+.boton-accion:hover {
+    border-color: var(--color-primario);
+    color: var(--color-primario);
+}
+
+.boton-accion--peligro:hover {
+    border-color: var(--color-alta);
+    background-color: #fef2f2;
+    color: var(--color-alta);
+}
+
+.filtro:hover:not([aria-pressed="true"]) {
+    background-color: #eef2ff;
+}
+
+.tarea:hover {
+    box-shadow: var(--sombra);
+    transform: translateX(2px);
+}
+
+.campo:focus,
+.boton:focus-visible,
+.boton-accion:focus-visible,
+.filtro:focus-visible {
+    outline: 3px solid rgba(79, 70, 229, 0.3);
+    outline-offset: 1px;
+    border-color: var(--color-primario);
+}
+
+@media (max-width: 760px) {
+    .dashboard {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .encabezado__titulo {
+        font-size: 1.5rem;
+    }
+
+    .formulario__acciones,
+    .formulario__acciones .boton {
+        width: 100%;
+    }
+
+    .tarea {
+        flex-wrap: wrap;
+    }
+
+    .tarea__acciones {
+        width: 100%;
+        justify-content: flex-end;
+    }
+}
+
+@media (max-width: 420px) {
+    .encabezado__contenido {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .filtros {
+        width: 100%;
+    }
+
+    .filtro {
+        flex: 1;
+    }
+}
