@@ -9,8 +9,8 @@
 | Herramienta | Momento del desarrollo | Para qué la usé |
 |---|---|---|
 | Claude (Anthropic) | Planificación | Interpretar las indicaciones de la actividad. |
-| Claude (Anthropic) | Proponer la estructura de módulos ES6 (`main`, `ui`, `api`, `storage`, `tareas`) 
-| Claude (Anthropic) | Revisar casos de error (sin conexión, servidor caído), redactar el README. |
+| Claude (Anthropic) | Proponer la estructura de módulos ES6 (`main`, `ui`, `api`, `storage`, `tareas`) | Para poderme guiar armando el codigo. |
+| Claude (Anthropic) | Revisar casos de error (sin conexión, servidor caído), redactar el README. | Para solventar los errores que se me presentaban. |
 
 ## 2. Prompts clave utilizados
 
