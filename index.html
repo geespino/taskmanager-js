@@ -75,6 +75,22 @@
         <section class="panel">
             <div class="panel__cabecera">
                 <h2 class="panel__titulo">Mis tareas</h2>
+                <p class="panel__contador" id="contador-visible"></p>
+            </div>
+
+            <div class="controles">
+                <div class="filtros" id="filtros" role="group" aria-label="Filtrar tareas por estado">
+                    <button type="button" class="filtro" data-filtro="todas" aria-pressed="true">Todas</button>
+                    <button type="button" class="filtro" data-filtro="pendientes" aria-pressed="false">Pendientes</button>
+                    <button type="button" class="filtro" data-filtro="completadas" aria-pressed="false">Completadas</button>
+                </div>
+                <input class="campo" type="search" id="busqueda" placeholder="Buscar por título…" aria-label="Buscar tareas por título">
+                <select class="campo" id="orden" aria-label="Ordenar tareas">
+                    <option value="recientes">Más recientes primero</option>
+                    <option value="antiguas">Más antiguas primero</option>
+                    <option value="prioridad-alta">Prioridad: Alta → Baja</option>
+                    <option value="prioridad-baja">Prioridad: Baja → Alta</option>
+                </select>
             </div>
 
             <ul class="lista-tareas" id="lista-tareas"></ul>
