@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="TaskManager: gestor de tareas con JavaScript Vanilla, API REST y localStorage.">
+    <title>TaskManager | Gestor de tareas</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+    <!-- ========== ENCABEZADO ========== -->
+    <header class="encabezado">
+        <div class="contenedor encabezado__contenido">
+            <div>
+                <h1 class="encabezado__titulo">TaskManager</h1>
+                <p class="encabezado__subtitulo">Gestor de tareas con JavaScript, API REST y localStorage</p>
+            </div>
+        </div>
+    </header>
+
+    <main class="contenedor principal">
+
+        <!-- ========== FORMULARIO ========== -->
+        <section class="panel">
+            <h2 class="panel__titulo" id="titulo-formulario">Nueva tarea</h2>
+            <form id="form-tarea" class="formulario" novalidate>
+                <div class="formulario__grupo formulario__grupo--titulo">
+                    <label class="formulario__etiqueta" for="titulo">Título</label>
+                    <input class="campo" type="text" id="titulo" maxlength="120" placeholder="Ej.: Estudiar módulos ES6" autocomplete="off">
+                </div>
+                <div class="formulario__grupo">
+                    <label class="formulario__etiqueta" for="prioridad">Prioridad</label>
+                    <select class="campo" id="prioridad">
+                        <option value="alta">Alta</option>
+                        <option value="media" selected>Media</option>
+                        <option value="baja">Baja</option>
+                    </select>
+                </div>
+                <div class="formulario__acciones">
+                    <button type="submit" class="boton" id="btn-guardar">Agregar tarea</button>
+                </div>
+                <p class="formulario__error" id="error-formulario" role="alert"></p>
+            </form>
+        </section>
+
+        <!-- ========== LISTA DE TAREAS ========== -->
+        <section class="panel">
+            <div class="panel__cabecera">
+                <h2 class="panel__titulo">Mis tareas</h2>
+            </div>
+
+            <ul class="lista-tareas" id="lista-tareas"></ul>
+            <p class="mensaje-vacio" id="mensaje-vacio" hidden></p>
+        </section>
+    </main>
+
+    <!-- ========== PIE DE PÁGINA ========== -->
+    <footer class="pie">
+        <p class="contenedor">&copy; 2026 Genesis Espinoza · Programación de Sistemas Web · Universidad ECOTEC</p>
+    </footer>
+</body>
+</html>
