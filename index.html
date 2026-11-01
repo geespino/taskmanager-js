@@ -19,6 +19,7 @@
                 <h1 class="encabezado__titulo">TaskManager</h1>
                 <p class="encabezado__subtitulo">Gestor de tareas con JavaScript, API REST y localStorage</p>
             </div>
+            <span id="estado-conexion" class="estado-conexion">En línea</span>
         </div>
     </header>
 
@@ -93,10 +94,15 @@
                 </select>
             </div>
 
+            <p class="estado-carga" id="estado-carga" hidden>Cargando tareas desde la API…</p>
+
             <ul class="lista-tareas" id="lista-tareas"></ul>
             <p class="mensaje-vacio" id="mensaje-vacio" hidden></p>
         </section>
     </main>
+
+    <!-- Contenedor de notificaciones visuales -->
+    <div class="notificaciones" id="notificaciones" aria-live="polite"></div>
 
     <!-- ========== PIE DE PÁGINA ========== -->
     <footer class="pie">
