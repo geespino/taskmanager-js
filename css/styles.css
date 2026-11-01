@@ -347,3 +347,46 @@ body {
 .formulario--edicion .campo {
     border-color: var(--color-primario);
 }
+
+/* ---------- Filtros, búsqueda y ordenamiento ---------- */
+.controles {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.7rem;
+    margin-bottom: 1rem;
+}
+
+.controles #busqueda {
+    flex: 1 1 200px;
+}
+
+.filtros {
+    display: flex;
+    border: 1px solid var(--color-borde);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.filtro {
+    font-family: var(--fuente);
+    font-size: 0.85rem;
+    padding: 0.55rem 0.9rem;
+    border: none;
+    background-color: var(--color-blanco);
+    color: var(--color-texto);
+    cursor: pointer;
+}
+
+.filtro + .filtro {
+    border-left: 1px solid var(--color-borde);
+}
+
+.filtro[aria-pressed="true"] {
+    background-color: var(--color-primario);
+    color: var(--color-blanco);
+}
+
+.panel__contador {
+    font-size: 0.85rem;
+    color: var(--color-suave);
+}
